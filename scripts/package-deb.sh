@@ -14,11 +14,15 @@ fi
 copy_dir() {
   local src="$1"
   local dest="$2"
-  if command -v rsync >/dev/null 2>&1; then
-    rsync -a --info=progress2 "$src" "$dest"
-  else
-    cp -a "$src" "$dest"
+  local parent
+  local name
+  parent="$(dirname "$src")"
+  name="$(basename "$src")"
+  if command -v tar >/dev/null 2>&1; then
+    tar -C "$parent" -cf - "$name" | tar -C "$dest" -xf -
+    return
   fi
+  cp -a "$src" "$dest"
 }
 
 CONTROL_TEMPLATE="$ROOT_DIR/packaging/deb/control"
