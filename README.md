@@ -108,6 +108,17 @@ openclaw agent --message "Hello from OpenClaw"
 openclaw gateway restart
 ```
 
+補足:
+- 初回インストール時は依存関係の `npm install` が走るため少し時間がかかります。
+- もし「plugin not available」が出た場合は、次を実行してください:
+
+```bash
+cd /opt/openclaw
+npm install --omit=dev
+cd /opt/openclaw/extensions/discord
+npm install --omit=dev
+```
+
 ## クイックスタート（TL;DR）
 
 ランタイム: **Node ≥22**。

@@ -86,6 +86,10 @@ if [[ -d "$ROOT_DIR/skills" ]]; then
   echo "Copying skills/..."
   copy_dir "$ROOT_DIR/skills" "$APP_DIR/"
 fi
+if [[ -d "$ROOT_DIR/extensions" ]]; then
+  echo "Copying extensions/..."
+  copy_dir "$ROOT_DIR/extensions" "$APP_DIR/"
+fi
 
 install -m 0755 "$BOOTSTRAP_FILE" "$BOOTSTRAP_DIR/ubuntu-22.04.sh"
 install -m 0755 "$WRAPPER_FILE" "$BIN_DIR/openclaw"

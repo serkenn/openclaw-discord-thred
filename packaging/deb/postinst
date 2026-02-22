@@ -17,9 +17,19 @@ fi
 
 if [ ! -d /opt/openclaw/node_modules ]; then
   if ! command -v git >/dev/null 2>&1; then
-    echo \"git not found. Install git, then re-run: cd /opt/openclaw && npm install --omit=dev\" >&2
+    echo "git not found. Install git, then re-run: cd /opt/openclaw && npm install --omit=dev" >&2
   elif command -v npm >/dev/null 2>&1; then
     (cd /opt/openclaw && npm install --omit=dev) || true
+  fi
+fi
+
+if command -v npm >/dev/null 2>&1; then
+  if [ -d /opt/openclaw/extensions ]; then
+    for dir in /opt/openclaw/extensions/*; do
+      if [ -d "$dir" ] && [ -f "$dir/package.json" ] && [ ! -d "$dir/node_modules" ]; then
+        (cd "$dir" && npm install --omit=dev) || true
+      fi
+    done
   fi
 fi
 
