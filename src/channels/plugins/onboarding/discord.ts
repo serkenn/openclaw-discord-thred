@@ -128,6 +128,33 @@ function setDiscordGuildChannelAllowlist(
   return patchDiscordConfigForAccount(cfg, accountId, { guilds });
 }
 
+function setDiscordGuildChannelAccess(
+  cfg: OpenClawConfig,
+  accountId: string,
+  entries: Array<{
+    guildKey: string;
+    channelKey: string;
+    allow: boolean;
+  }>,
+): OpenClawConfig {
+  const baseGuilds =
+    accountId === DEFAULT_ACCOUNT_ID
+      ? (cfg.channels?.discord?.guilds ?? {})
+      : (cfg.channels?.discord?.accounts?.[accountId]?.guilds ?? {});
+  const guilds: Record<string, DiscordGuildEntry> = { ...baseGuilds };
+  for (const entry of entries) {
+    if (!entry.channelKey) {
+      continue;
+    }
+    const guildKey = entry.guildKey || "*";
+    const existing = guilds[guildKey] ?? {};
+    const channels = { ...existing.channels };
+    channels[entry.channelKey] = { ...(channels[entry.channelKey] ?? {}), allow: entry.allow };
+    guilds[guildKey] = { ...existing, channels };
+  }
+  return patchDiscordConfigForAccount(cfg, accountId, { guilds });
+}
+
 function setDiscordAllowFrom(cfg: OpenClawConfig, allowFrom: string[]): OpenClawConfig {
   return {
     ...cfg,
@@ -150,6 +177,16 @@ function parseDiscordAllowFromInput(raw: string): string[] {
     .split(/[\n,;]+/g)
     .map((entry) => entry.trim())
     .filter(Boolean);
+}
+
+function requireNumericId(value: string): string | undefined {
+  if (!value.trim()) {
+    return "Required";
+  }
+  if (!/^\d+$/.test(value.trim())) {
+    return "Use a numeric Discord ID";
+  }
+  return undefined;
 }
 
 async function promptDiscordAllowFrom(params: {
@@ -342,6 +379,40 @@ export const discordOnboardingAdapter: ChannelOnboardingAdapter = {
           },
         };
       }
+    }
+
+    const lockToThread = await prompter.confirm({
+      message: "Limit Discord to a single server/channel thread?",
+      initialValue: false,
+    });
+    if (lockToThread) {
+      const guildId = await prompter.text({
+        message: "Discord server (guild) ID",
+        validate: requireNumericId,
+      });
+      const channelId = await prompter.text({
+        message: "Discord channel ID (parent channel)",
+        validate: requireNumericId,
+      });
+      const threadId = await prompter.text({
+        message: "Discord thread ID",
+        validate: requireNumericId,
+      });
+      next = setDiscordGroupPolicy(next, discordAccountId, "allowlist");
+      next = setDiscordGuildChannelAccess(next, discordAccountId, [
+        { guildKey: guildId.trim(), channelKey: channelId.trim(), allow: false },
+        { guildKey: guildId.trim(), channelKey: threadId.trim(), allow: true },
+      ]);
+      await prompter.note(
+        [
+          "Configured Discord allowlist for a single thread.",
+          `Server (guild): ${guildId.trim()}`,
+          `Channel: ${channelId.trim()} (blocked)`,
+          `Thread: ${threadId.trim()} (allowed)`,
+        ].join("\n"),
+        "Discord channels",
+      );
+      return { cfg: next, accountId: discordAccountId };
     }
 
     const currentEntries = Object.entries(resolvedAccount.config.guilds ?? {}).flatMap(
