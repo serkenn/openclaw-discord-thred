@@ -17,12 +17,8 @@ fi
 
 if [ ! -d /opt/openclaw/node_modules ]; then
   if ! command -v git >/dev/null 2>&1; then
-    if command -v apt-get >/dev/null 2>&1; then
-      apt-get update -y || true
-      apt-get install -y --no-install-recommends git || true
-    fi
-  fi
-  if command -v npm >/dev/null 2>&1; then
+    echo \"git not found. Install git, then re-run: cd /opt/openclaw && npm install --omit=dev\" >&2
+  elif command -v npm >/dev/null 2>&1; then
     (cd /opt/openclaw && npm install --omit=dev) || true
   fi
 fi
