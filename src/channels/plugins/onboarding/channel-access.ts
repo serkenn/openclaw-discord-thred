@@ -25,13 +25,13 @@ export async function promptChannelAccessPolicy(params: {
   allowDisabled?: boolean;
 }): Promise<ChannelAccessPolicy> {
   const options: Array<{ value: ChannelAccessPolicy; label: string }> = [
-    { value: "allowlist", label: "Allowlist (recommended)" },
+    { value: "allowlist", label: t("Allowlist (recommended)") },
   ];
   if (params.allowOpen !== false) {
-    options.push({ value: "open", label: "Open (allow all channels)" });
+    options.push({ value: "open", label: t("Open (allow all channels)") });
   }
   if (params.allowDisabled !== false) {
-    options.push({ value: "disabled", label: "Disabled (block all channels)" });
+    options.push({ value: "disabled", label: t("Disabled (block all channels)") });
   }
   const initialValue = params.currentPolicy ?? "allowlist";
   return await params.prompter.select({

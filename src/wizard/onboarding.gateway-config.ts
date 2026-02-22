@@ -120,7 +120,11 @@ export async function configureGatewayForOnboarding(
       ? quickstartGateway.tailscaleMode
       : await prompter.select<GatewayWizardSettings["tailscaleMode"]>({
           message: t("Tailscale exposure"),
-          options: [...TAILSCALE_EXPOSURE_OPTIONS],
+          options: TAILSCALE_EXPOSURE_OPTIONS.map((option) => ({
+            value: option.value,
+            label: t(option.label),
+            hint: option.hint ? t(option.hint) : undefined,
+          })),
         });
 
   // Detect Tailscale binary before proceeding with serve/funnel setup.

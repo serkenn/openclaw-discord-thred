@@ -51,7 +51,6 @@ const TRANSLATIONS: Record<string, string> = {
   "Invalid --flow (use quickstart, manual, or advanced).":
     "無効な --flow です（quickstart / manual / advanced を指定してください）。",
   "Onboarding mode": "オンボーディングのモード",
-  "QuickStart": "クイックスタート",
   "Manual": "手動",
   "QuickStart only supports local gateways. Switching to Manual mode.":
     "クイックスタートはローカルゲートウェイのみ対応です。手動モードに切り替えます。",
@@ -172,6 +171,115 @@ const TRANSLATIONS: Record<string, string> = {
   "Multi-user DMs: run: {cmd} (or \"per-account-channel-peer\" for multi-account channels) to isolate sessions.":
     "複数ユーザーDM: {cmd} を実行（複数アカウントのチャンネルは \"per-account-channel-peer\"）してセッションを分離。",
   "How channels work": "チャンネルの仕組み",
+  "Systemd user services are unavailable. Skipping lingering checks and service install.":
+    "Systemd のユーザーサービスが利用できません。linger チェックとサービス導入をスキップします。",
+  "Systemd": "Systemd",
+  "Linux installs use a systemd user service by default. Without lingering, systemd stops the user session on logout/idle and kills the Gateway.":
+    "Linux の既定は systemd のユーザーサービスです。linger が無いとログアウト/アイドルでユーザーセッションが止まり、Gateway が終了します。",
+  "Install Gateway service (recommended)": "Gateway サービスを導入（推奨）",
+  "Systemd user services are unavailable; skipping service install. Use your container supervisor or `docker compose up -d`.":
+    "Systemd のユーザーサービスが利用できないため、サービス導入をスキップします。コンテナのスーパーバイザか `docker compose up -d` を利用してください。",
+  "Gateway service": "Gateway サービス",
+  "Gateway service runtime": "Gateway サービスのランタイム",
+  "QuickStart uses Node for the Gateway service (stable + supported).":
+    "クイックスタートでは Gateway サービスに Node（安定・サポート対象）を使用します。",
+  "Gateway service already installed": "Gateway サービスは既に導入済みです",
+  "Restart": "再起動",
+  "Reinstall": "再導入",
+  "Skip": "スキップ",
+  "Gateway service restarted.": "Gateway サービスを再起動しました。",
+  "Restarting Gateway service…": "Gateway サービスを再起動しています…",
+  "Gateway service uninstalled.": "Gateway サービスを削除しました。",
+  "Uninstalling Gateway service…": "Gateway サービスを削除しています…",
+  "Preparing Gateway service…": "Gateway サービスを準備しています…",
+  "Installing Gateway service…": "Gateway サービスを導入しています…",
+  "Gateway service install failed.": "Gateway サービスの導入に失敗しました。",
+  "Gateway service installed.": "Gateway サービスを導入しました。",
+  "Gateway service install failed: {error}": "Gateway サービスの導入に失敗しました: {error}",
+  "Gateway": "Gateway",
+  "Health check help": "ヘルスチェックのヘルプ",
+  "Add nodes for extra features:": "追加機能のためにノードを追加:",
+  "- macOS app (system + notifications)": "- macOS アプリ（システム + 通知）",
+  "- iOS app (camera/canvas)": "- iOS アプリ（カメラ/Canvas）",
+  "- Android app (camera/canvas)": "- Android アプリ（カメラ/Canvas）",
+  "Optional apps": "任意アプリ",
+  "Gateway: reachable": "Gateway: 到達可能",
+  "Gateway: not detected{detail}": "Gateway: 未検出{detail}",
+  "Web UI: {url}": "Web UI: {url}",
+  "Web UI (with token): {url}": "Web UI（トークン付き）: {url}",
+  "Gateway WS: {url}": "Gateway WS: {url}",
+  "Docs: https://docs.openclaw.ai/web/control-ui":
+    "Docs: https://docs.openclaw.ai/web/control-ui",
+  "Docs: https://docs.openclaw.ai/gateway/configuration":
+    "Docs: https://docs.openclaw.ai/gateway/configuration",
+  "Docs:": "ドキュメント:",
+  "Control UI": "Control UI",
+  "This is the defining action that makes your agent you.":
+    "ここが、あなたのエージェントをあなたのものにする決定的なアクションです。",
+  "Please take your time.": "時間をかけてじっくり進めてください。",
+  "The more you tell it, the better the experience will be.":
+    "伝える情報が多いほど、体験は良くなります。",
+  "We will send: \"Wake up, my friend!\"": "送信メッセージ: \"Wake up, my friend!\"",
+  "Start TUI (best option!)": "TUI で開始（おすすめ）",
+  "Gateway token: shared auth for the Gateway + Control UI.":
+    "Gateway トークン: Gateway と Control UI の共通認証です。",
+  "Stored in: ~/.openclaw/openclaw.json (gateway.auth.token) or OPENCLAW_GATEWAY_TOKEN.":
+    "保存先: ~/.openclaw/openclaw.json（gateway.auth.token）または OPENCLAW_GATEWAY_TOKEN。",
+  "View token: {cmd}": "トークン表示: {cmd}",
+  "Generate token: {cmd}": "トークン生成: {cmd}",
+  "Web UI stores a copy in this browser's localStorage (openclaw.control.settings.v1).":
+    "Web UI はこのブラウザの localStorage（openclaw.control.settings.v1）にも保存します。",
+  "Open the dashboard anytime: {cmd}": "いつでもダッシュボードを開く: {cmd}",
+  "If prompted: paste the token into Control UI settings (or use the tokenized dashboard URL).":
+    "求められた場合は、Control UI 設定にトークンを貼り付けるか、トークン付き URL を使用してください。",
+  "Token": "トークン",
+  "How do you want to hatch your bot?": "どの方法でボットを起動しますか？",
+  "Hatch in TUI (recommended)": "TUI で起動（推奨）",
+  "Open the Web UI": "Web UI を開く",
+  "Do this later": "後で行う",
+  "Wake up, my friend!": "Wake up, my friend!",
+  "Dashboard link (with token): {url}": "ダッシュボードリンク（トークン付き）: {url}",
+  "Opened in your browser. Keep that tab to control OpenClaw.":
+    "ブラウザで開きました。そのタブを保持して OpenClaw を操作してください。",
+  "Copy/paste this URL in a browser on this machine to control OpenClaw.":
+    "このマシンのブラウザで URL を開いて OpenClaw を操作してください。",
+  "Dashboard ready": "ダッシュボード準備完了",
+  "When you're ready: {cmd}": "準備ができたら: {cmd}",
+  "Later": "後で",
+  "Skipping Control UI/TUI prompts.": "Control UI/TUI の案内をスキップします。",
+  "Back up your agent workspace.": "エージェントのワークスペースをバックアップしてください。",
+  "Docs: https://docs.openclaw.ai/concepts/agent-workspace":
+    "Docs: https://docs.openclaw.ai/concepts/agent-workspace",
+  "Workspace backup": "ワークスペースのバックアップ",
+  "Running agents on your computer is risky — harden your setup: https://docs.openclaw.ai/security":
+    "ローカルでエージェントを動かすのは危険です。安全対策: https://docs.openclaw.ai/security",
+  "Web search is enabled, so your agent can look things up online when needed.":
+    "Web 検索が有効なので、必要に応じてオンライン検索ができます。",
+  "API key: stored in config (tools.web.search.apiKey).":
+    "API キー: 設定（tools.web.search.apiKey）に保存されています。",
+  "API key: provided via BRAVE_API_KEY env var (Gateway environment).":
+    "API キー: BRAVE_API_KEY 環境変数で提供されています（Gateway 環境）。",
+  "Docs: https://docs.openclaw.ai/tools/web": "Docs: https://docs.openclaw.ai/tools/web",
+  "If you want your agent to be able to search the web, you’ll need an API key.":
+    "エージェントで Web 検索を使うには API キーが必要です。",
+  "OpenClaw uses Brave Search for the `web_search` tool. Without a Brave Search API key, web search won’t work.":
+    "OpenClaw は `web_search` ツールに Brave Search を使用します。Brave Search の API キーが無いと動きません。",
+  "Set it up interactively:": "対話的に設定する:",
+  "- Run: {cmd}": "- 実行: {cmd}",
+  "- Enable web_search and paste your Brave Search API key":
+    "- web_search を有効にし、Brave Search API キーを貼り付け",
+  "Alternative: set BRAVE_API_KEY in the Gateway environment (no config changes).":
+    "代替: Gateway 環境に BRAVE_API_KEY を設定（設定変更不要）",
+  "Web search (optional)": "Web 検索（任意）",
+  "What now: https://openclaw.ai/showcase (\"What People Are Building\").":
+    "次にやること: https://openclaw.ai/showcase（\"What People Are Building\"）",
+  "What now": "次にやること",
+  "Onboarding complete. Dashboard opened; keep that tab to control OpenClaw.":
+    "オンボーディング完了。ダッシュボードを開きました。タブを保持して操作してください。",
+  "Onboarding complete. Web UI seeded in the background; open it anytime with the dashboard link above.":
+    "オンボーディング完了。Web UI をバックグラウンドで準備しました。上のリンクからいつでも開けます。",
+  "Onboarding complete. Use the dashboard link above to control OpenClaw.":
+    "オンボーディング完了。上のダッシュボードリンクから操作してください。",
 };
 
 export function t(key: string, params?: Params): string {

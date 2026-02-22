@@ -85,7 +85,7 @@ export async function runOnboardingWizard(
         [
           ...snapshot.issues.map((iss) => `- ${iss.path}: ${iss.message}`),
           "",
-          "Docs: https://docs.openclaw.ai/gateway/configuration",
+          t("Docs: https://docs.openclaw.ai/gateway/configuration"),
         ].join("\n"),
         t("Config issues"),
       );

@@ -62,6 +62,16 @@ openclaw onboard --install-daemon
 
 ウィザードが Gateway をデーモン（launchd/systemd user service）として導入し、常時稼働させます。
 
+## 日本語でオンボーディングする
+
+オンボーディングを日本語で実行する場合は、環境変数を指定してください。
+
+```bash
+OPENCLAW_LANG=ja openclaw onboard
+# または
+LANG=ja_JP.UTF-8 openclaw onboard
+```
+
 ## インストール後（Debian/Ubuntu）
 
 `.deb` を入れた後に何をすればいいか分からない場合は、以下を実行してください。
