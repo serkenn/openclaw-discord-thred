@@ -128,7 +128,6 @@ const TRANSLATIONS: Record<string, string> = {
   "Auto (Loopback → LAN)": "自動（ループバック → LAN）",
   "Custom IP address": "カスタムIPアドレス",
   "Gateway auth": "ゲートウェイ認証",
-  "Token": "トークン",
   "Recommended default (local + remote)": "推奨の既定（ローカル + リモート）",
   "Tailscale exposure": "Tailscale 公開",
   "No Tailscale exposure": "Tailscale 公開なし",
