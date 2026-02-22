@@ -61,6 +61,41 @@ openclaw onboard --install-daemon
 
 The wizard installs the Gateway daemon (launchd/systemd user service) so it stays running.
 
+## After install (Debian/Ubuntu)
+
+Installed the `.deb` and not sure what to do next? Do this:
+
+1. Run the onboarding wizard to configure auth + channels:
+
+```bash
+openclaw onboard
+```
+
+2. If you want Discord to respond **only in one thread**, choose Discord and answer:
+   - **Limit Discord to a single server/channel thread?** → `Yes`
+   - Enter the **Server (guild) ID**, **Channel ID (parent channel)**, and **Thread ID**
+
+3. Verify the gateway is running:
+
+```bash
+openclaw gateway status
+```
+
+4. Send a test message:
+
+```bash
+openclaw agent --message "Hello from OpenClaw"
+```
+
+Tips:
+- To find Discord IDs, enable Developer Mode in Discord and use “Copy ID”.  
+  Docs: https://docs.openclaw.ai/channels/discord
+- If the service was installed by the deb, it may already be running. If needed:
+
+```bash
+openclaw gateway restart
+```
+
 ## Quick start (TL;DR)
 
 Runtime: **Node ≥22**.
