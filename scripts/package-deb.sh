@@ -78,8 +78,6 @@ echo "Copying package.json..."
 cp -a "$ROOT_DIR/package.json" "$APP_DIR/"
 echo "Copying dist/..."
 copy_dir "$ROOT_DIR/dist" "$APP_DIR/"
-echo "Copying node_modules/..."
-copy_dir "$ROOT_DIR/node_modules" "$APP_DIR/"
 if [[ -d "$ROOT_DIR/assets" ]]; then
   echo "Copying assets/..."
   copy_dir "$ROOT_DIR/assets" "$APP_DIR/"
