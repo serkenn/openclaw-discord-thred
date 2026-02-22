@@ -1,4 +1,5 @@
 import type { WizardPrompter } from "../../../wizard/prompts.js";
+import { t } from "../../../wizard/i18n.js";
 
 export type ChannelAccessPolicy = "allowlist" | "open" | "disabled";
 
@@ -34,7 +35,7 @@ export async function promptChannelAccessPolicy(params: {
   }
   const initialValue = params.currentPolicy ?? "allowlist";
   return await params.prompter.select({
-    message: `${params.label} access`,
+    message: t("{label} access", { label: params.label }),
     options,
     initialValue,
   });
@@ -51,7 +52,7 @@ export async function promptChannelAllowlist(params: {
       ? formatAllowlistEntries(params.currentEntries)
       : undefined;
   const raw = await params.prompter.text({
-    message: `${params.label} allowlist (comma-separated)`,
+    message: t("{label} allowlist (comma-separated)", { label: params.label }),
     placeholder: params.placeholder,
     initialValue,
   });
@@ -73,8 +74,8 @@ export async function promptChannelAccessConfig(params: {
   const shouldPrompt = params.defaultPrompt ?? !hasEntries;
   const wants = await params.prompter.confirm({
     message: params.updatePrompt
-      ? `Update ${params.label} access?`
-      : `Configure ${params.label} access?`,
+      ? t("Update {label} access?", { label: params.label })
+      : t("Configure {label} access?", { label: params.label }),
     initialValue: shouldPrompt,
   });
   if (!wants) {

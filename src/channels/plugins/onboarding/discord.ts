@@ -15,6 +15,7 @@ import { resolveDiscordUserAllowlist } from "../../../discord/resolve-users.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../../routing/session-key.js";
 import { formatDocsLink } from "../../../terminal/links.js";
 import type { WizardPrompter } from "../../../wizard/prompts.js";
+import { t } from "../../../wizard/i18n.js";
 import type { ChannelOnboardingAdapter, ChannelOnboardingDmPolicy } from "../onboarding-types.js";
 import { promptChannelAccessConfig } from "./channel-access.js";
 import { addWildcardAllowFrom, promptAccountId, promptResolvedAllowFrom } from "./helpers.js";
@@ -181,10 +182,10 @@ function parseDiscordAllowFromInput(raw: string): string[] {
 
 function requireNumericId(value: string): string | undefined {
   if (!value.trim()) {
-    return "Required";
+    return t("Required");
   }
   if (!/^\d+$/.test(value.trim())) {
-    return "Use a numeric Discord ID";
+    return t("Use a numeric Discord ID");
   }
   return undefined;
 }
@@ -382,20 +383,20 @@ export const discordOnboardingAdapter: ChannelOnboardingAdapter = {
     }
 
     const lockToThread = await prompter.confirm({
-      message: "Limit Discord to a single server/channel thread?",
+      message: t("Limit Discord to a single server/channel thread?"),
       initialValue: false,
     });
     if (lockToThread) {
       const guildId = await prompter.text({
-        message: "Discord server (guild) ID",
+        message: t("Discord server (guild) ID"),
         validate: requireNumericId,
       });
       const channelId = await prompter.text({
-        message: "Discord channel ID (parent channel)",
+        message: t("Discord channel ID (parent channel)"),
         validate: requireNumericId,
       });
       const threadId = await prompter.text({
-        message: "Discord thread ID",
+        message: t("Discord thread ID"),
         validate: requireNumericId,
       });
       next = setDiscordGroupPolicy(next, discordAccountId, "allowlist");
@@ -405,12 +406,12 @@ export const discordOnboardingAdapter: ChannelOnboardingAdapter = {
       ]);
       await prompter.note(
         [
-          "Configured Discord allowlist for a single thread.",
-          `Server (guild): ${guildId.trim()}`,
-          `Channel: ${channelId.trim()} (blocked)`,
-          `Thread: ${threadId.trim()} (allowed)`,
+          t("Configured Discord allowlist for a single thread."),
+          t("Server (guild): {id}", { id: guildId.trim() }),
+          t("Channel: {id} (blocked)", { id: channelId.trim() }),
+          t("Thread: {id} (allowed)", { id: threadId.trim() }),
         ].join("\n"),
-        "Discord channels",
+        t("Discord channels"),
       );
       return { cfg: next, accountId: discordAccountId };
     }
