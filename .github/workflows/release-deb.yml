@@ -1,0 +1,51 @@
+name: Release deb (Ubuntu 22.04)
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: pnpm
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.23.0
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Build control UI
+        run: pnpm ui:build
+
+      - name: Prune dev deps
+        run: pnpm prune --prod
+
+      - name: Package deb
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          ./scripts/package-deb.sh "$VERSION"
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/deb/*.deb
+          fail_on_unmatched_files: true
+          generate_release_notes: true

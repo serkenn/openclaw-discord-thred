@@ -1,0 +1,10 @@
+Package: openclaw
+Version: @VERSION@
+Section: utils
+Priority: optional
+Architecture: @ARCH@
+Depends: nodejs (>= 22.12.0)
+Maintainer: OpenClaw <noreply@openclaw.ai>
+Description: Multi-channel AI gateway with extensible messaging integrations
+ OpenClaw runs a local gateway service and exposes a CLI for configuration
+ and messaging across supported channels.

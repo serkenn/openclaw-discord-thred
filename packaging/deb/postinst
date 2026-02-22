@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+
+if ! id -u openclaw >/dev/null 2>&1; then
+  useradd --system --home /var/lib/openclaw --shell /usr/sbin/nologin openclaw
+fi
+
+mkdir -p /var/lib/openclaw
+if [ ! -f /var/lib/openclaw/config.json ]; then
+  echo "{}" > /var/lib/openclaw/config.json
+fi
+chown -R openclaw:openclaw /var/lib/openclaw
+
+if [ -x /opt/openclaw/bootstrap/ubuntu-22.04.sh ]; then
+  /opt/openclaw/bootstrap/ubuntu-22.04.sh --noninteractive || true
+fi
+
+if command -v systemctl >/dev/null 2>&1; then
+  systemctl daemon-reload || true
+  systemctl enable --now openclaw-gateway.service || true
+fi
+
+exit 0

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BOOTSTRAP="/opt/openclaw/bootstrap/ubuntu-22.04.sh"
+if ! command -v node >/dev/null 2>&1; then
+  if [[ -x "$BOOTSTRAP" ]]; then
+    "$BOOTSTRAP" --noninteractive || true
+  fi
+fi
+
+exec /usr/bin/env node /opt/openclaw/openclaw.mjs "$@"

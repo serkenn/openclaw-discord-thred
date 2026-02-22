@@ -1,0 +1,19 @@
+[Unit]
+Description=OpenClaw Gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=openclaw
+Group=openclaw
+WorkingDirectory=/var/lib/openclaw
+Environment=NODE_ENV=production
+Environment=OPENCLAW_STATE_DIR=/var/lib/openclaw
+Environment=OPENCLAW_CONFIG_PATH=/var/lib/openclaw/config.json
+ExecStart=/usr/bin/openclaw gateway run --bind loopback --port 18789 --force
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
