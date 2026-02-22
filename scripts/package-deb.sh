@@ -11,6 +11,16 @@ if [[ -z "$VERSION" ]]; then
   exit 2
 fi
 
+copy_dir() {
+  local src="$1"
+  local dest="$2"
+  if command -v rsync >/dev/null 2>&1; then
+    rsync -a --info=progress2 "$src" "$dest"
+  else
+    cp -a "$src" "$dest"
+  fi
+}
+
 CONTROL_TEMPLATE="$ROOT_DIR/packaging/deb/control"
 SERVICE_FILE="$ROOT_DIR/packaging/deb/openclaw-gateway.service"
 POSTINST_FILE="$ROOT_DIR/packaging/deb/postinst"
@@ -58,15 +68,21 @@ install -m 0755 "$POSTINST_FILE" "$DEBIAN_DIR/postinst"
 install -m 0755 "$POSTRM_FILE" "$DEBIAN_DIR/postrm"
 install -m 0644 "$SERVICE_FILE" "$SYSTEMD_DIR/openclaw-gateway.service"
 
+echo "Copying openclaw.mjs..."
 cp -a "$ROOT_DIR/openclaw.mjs" "$APP_DIR/"
+echo "Copying package.json..."
 cp -a "$ROOT_DIR/package.json" "$APP_DIR/"
-cp -a "$ROOT_DIR/dist" "$APP_DIR/"
-cp -a "$ROOT_DIR/node_modules" "$APP_DIR/"
+echo "Copying dist/..."
+copy_dir "$ROOT_DIR/dist" "$APP_DIR/"
+echo "Copying node_modules/..."
+copy_dir "$ROOT_DIR/node_modules" "$APP_DIR/"
 if [[ -d "$ROOT_DIR/assets" ]]; then
-  cp -a "$ROOT_DIR/assets" "$APP_DIR/"
+  echo "Copying assets/..."
+  copy_dir "$ROOT_DIR/assets" "$APP_DIR/"
 fi
 if [[ -d "$ROOT_DIR/skills" ]]; then
-  cp -a "$ROOT_DIR/skills" "$APP_DIR/"
+  echo "Copying skills/..."
+  copy_dir "$ROOT_DIR/skills" "$APP_DIR/"
 fi
 
 install -m 0755 "$BOOTSTRAP_FILE" "$BOOTSTRAP_DIR/ubuntu-22.04.sh"
